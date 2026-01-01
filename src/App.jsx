@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, ExternalLink, FileText } from "lucide-react";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("about");
@@ -45,62 +45,52 @@ const App = () => {
 
   const projects = [
     {
+      title: "TRANSPORT LAYER DATABASE ACCESS FIREWALL",
+      description:
+        "Protocol agnostic Layer-4 TCP proxy with graceful shutdown and enforced security policies global and per IP connection limits, token bucket based connection rate limiting, and configurable timeouts.",
+      github: "https://github.com/promariddhi/database_firewall",
+      demo: null,
+      demoType: "video",
+    },
+    {
       title: "VIDEO CONFERENCING APPLICATION",
       description:
         "End-to-end video conferencing system implementing WebRTC peer connections and real-time signaling, backed by FastAPI and PostgreSQL.",
-      github: null,
+      github: "https://github.com/promariddhi/roundtable",
       demo: null,
       demoType: "video",
     },
     {
-      title: "JOBMNGR",
+      title: "DAEMON BASED JOB SCHEDULER",
       description:
         "In-memory job scheduler built in Python using priority queues and background workers, focused on concurrency and task coordination.",
-      github: null,
+      github: "https://github.com/promariddhi/jobmngr",
       demo: null,
-      demoType: "video",
+      demoType: null,
     },
     {
-      title: "COVERAGE VISUALISER",
+      title: "DRONE AREA COVERAGE VISUALISER",
       description:
         "Web-based visualization tool to demonstrate area coverage algorithms for drones. Built with React and Tailwind CSS and deployed on Vercel.",
       github: null,
       demo: "https://coverage-visualiser-web.vercel.app/",
       demoType: "live",
     },
-    {
-      title: "PROJTIMER",
-      description:
-        "CLI utility built using native Python libraries to track cumulative time spent on a project.",
-      github: null,
-      demo: null,
-      demoType: "video",
-    },
   ];
 
   const blogs = [
     {
-      title: "BUILDING REAL-TIME SYSTEMS WITH WEBRTC",
+      title: "BUILDING A DATABASE FIREWALL PART 1: TCP PROXY",
       excerpt:
-        "Notes from implementing a video conferencing system from scratch, covering peer connections, signaling, ICE candidates, and common pitfalls in real-time communication.",
-      date: "2024-11",
-    },
-    {
-      title: "DESIGNING SAFE CONCURRENCY IN PYTHON",
-      excerpt:
-        "Exploration of threading, scheduling, and shared-state coordination through the lens of a custom job scheduler.",
-      date: "2024-10",
-    },
-    {
-      title: "THINKING IN SYSTEMS, NOT FRAMEWORKS",
-      excerpt:
-        "Reflections on learning how systems work under abstraction and why fundamentals matter more than tooling.",
-      date: "2024-09",
+        "Notes on why a database firewall is needed and how to build the tcp proxy required for it from scratch, covering connection lifetimes, coordinated teardowns and graceful shutdown.",
+      date: "2025-12-30",
+      link: "https://medium.com/@promariddhi/building-a-database-firewall-part-1-tcp-proxy-4134026ef739",
     },
   ];
 
   const technologies = [
     "PYTHON",
+    "GO",
     "SQL",
     "JAVASCRIPT",
     "REACT",
@@ -110,6 +100,7 @@ const App = () => {
     "POSTGRESQL",
     "AWS",
     "LINUX",
+    "DOCKER",
   ];
 
   return (
@@ -128,21 +119,25 @@ const App = () => {
             <h1 className="text-2xl font-bold tracking-widest uppercase mb-2">
               PROMA RIDDHI DAS
             </h1>
-            <p className="text-sm tracking-wide">
-              BACKEND / SYSTEMS-ORIENTED SOFTWARE DEVELOPER
-            </p>
+            <p className="text-sm tracking-wide">BACKEND SOFTWARE DEVELOPER</p>
           </div>
 
           {/* Social Links */}
           <div className="space-y-3 pt-4 border-t-2 border-black">
-            <button
-              disabled
-              className="flex items-center gap-3 opacity-40 cursor-not-allowed"
+            <a
+              href="https://github.com/promariddhi"
+              className="flex items-center gap-3 hover:underline"
             >
               <Github size={20} />
               <span className="text-sm tracking-wide">GITHUB</span>
-            </button>
-
+            </a>
+            <a
+              href="https://medium.com/@promariddhi"
+              className="flex items-center gap-3 hover:underline"
+            >
+              <FileText size={20} />
+              <span className="text-sm tracking-wide">BLOG</span>
+            </a>
             <a
               href="https://linkedin.com/in/promariddhi"
               className="flex items-center gap-3 hover:underline"
@@ -184,7 +179,7 @@ const App = () => {
         {/* Top Navigation */}
         <nav className="sticky top-0 bg-white border-b-2 border-black z-10">
           <div className="flex gap-8 px-12 py-6">
-            {["ABOUT", "PROJECTS", "CONTACT"].map((item) => (
+            {["ABOUT", "PROJECTS", "BLOGS", "CONTACT"].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
@@ -258,14 +253,16 @@ const App = () => {
                 </div>
 
                 <div className="flex gap-4 mt-auto">
-                  {/* SOURCE (disabled for now) */}
-                  <button
-                    disabled
-                    className="flex items-center gap-2 border-2 border-black px-4 py-2 text-xs font-bold tracking-widest opacity-40 cursor-not-allowed"
+                  {/* SOURCE */}
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 border-2 border-black px-4 py-2 text-xs font-bold tracking-widest hover:bg-black hover:text-white transition-colors"
                   >
-                    <Github size={16} />
+                    <ExternalLink size={16} />
                     SOURCE
-                  </button>
+                  </a>
 
                   {/* DEMO */}
                   {project.demo ? (
@@ -276,16 +273,10 @@ const App = () => {
                       className="flex items-center gap-2 border-2 border-black px-4 py-2 text-xs font-bold tracking-widest hover:bg-black hover:text-white transition-colors"
                     >
                       <ExternalLink size={16} />
-                      LIVE DEMO
+                      {project.demoType.toUpperCase()}
                     </a>
                   ) : (
-                    <button
-                      disabled
-                      className="flex items-center gap-2 border-2 border-black px-4 py-2 text-xs font-bold tracking-widest opacity-40 cursor-not-allowed"
-                    >
-                      <ExternalLink size={16} />
-                      DEMO VIDEO
-                    </button>
+                    <></>
                   )}
                 </div>
               </div>
@@ -294,7 +285,7 @@ const App = () => {
         </section>
 
         {/* Blogs Section */}
-        {/*<section
+        <section
           id="blogs"
           className="min-h-screen px-12 py-16 border-t-2 border-black"
         >
@@ -312,13 +303,22 @@ const App = () => {
                   {blog.date}
                 </div>
                 <h3 className="text-2xl font-bold tracking-wide uppercase mb-4">
-                  {blog.title}
+                  <span className="inline-flex items-center gap-2">
+                    {blog.title}
+                    <a
+                      href={blog.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink size={20} />
+                    </a>
+                  </span>
                 </h3>
                 <p className="text-sm leading-relaxed">{blog.excerpt}</p>
               </div>
             ))}
           </div>
-        </section>*/}
+        </section>
 
         {/* Contact Section */}
         <section
